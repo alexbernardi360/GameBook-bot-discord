@@ -1,0 +1,34 @@
+{
+  "name": "gamebook-bot-discord",
+  "version": "1.0.0",
+  "description": "Discord bot for GameBooks",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexbernardi360/GameBook-bot-discord.git"
+  },
+  "keywords": [
+    "GameBook",
+    "LibroGame",
+    "LGC3",
+    "Discord",
+    "bot"
+  ],
+  "author": "Alessandro Bernardi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexbernardi360/GameBook-bot-discord/issues"
+  },
+  "homepage": "https://github.com/alexbernardi360/GameBook-bot-discord#readme",
+  "dependencies": {
+    "discord.js": "^12.4.1",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
