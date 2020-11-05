@@ -7,7 +7,7 @@ const client = new Discord.Client()
 client.commands = new Discord.Collection()
 const cooldowns = new Discord.Collection()
 
-const commandFile = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
+const commandFile = fs.readdirSync('./commands').filter((file) => file.endsWith('.js'))
 
 for (const file of commandFile) {
     const command = require(`./commands/${file}`)
