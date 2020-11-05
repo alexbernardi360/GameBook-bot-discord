@@ -4,5 +4,8 @@ node_modules/
 # dotenv environment variables file
 .env
 
+# GameBooks available with .json extension
+gamebooks/
+
 # Dev test commands
 commands/test.js
