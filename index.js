@@ -42,8 +42,8 @@ client.on('message', (message) => {
         return message.reply('I can\'t execute that command inside DMs!')
 
     // Check on arguments
-    if (args.length < command.args) {
-        let reply = `Too few arguments, ${message.author}!`
+    if (command.args && !args.length) {
+        let reply = `You didn't provide any arguments, ${message.author}!`
 
         if (command.usage)
             reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``
