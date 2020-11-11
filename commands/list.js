@@ -1,5 +1,10 @@
+// Import external modules
 const fs = require('fs')
 const path = require('path')
+
+// Import internal modules
+const main_path = path.dirname(require.main.filename)
+const GBlib = require(`${main_path}/lib/GBlib`)
 
 module.exports = {
     name: 'list',
@@ -8,13 +13,20 @@ module.exports = {
     cooldown: 5,
     execute(message) {
         // Gets all .json files in gamebooks folder
-        const gamebookFile = fs.readdirSync('./gamebooks').filter((file) => file.endsWith('.json'))
-        let reply = 'The available GameBooks are:'
+        const gamebookFiles = fs.readdirSync('./gamebooks').filter((file) => file.endsWith('.json'))
 
-        // Gets the name of all files
-        for (const file of gamebookFile)
-            reply += `\n\`${path.basename(file, path.extname(file))}\``
+        const embed = {
+            color: 0x0099ff,
+            title: 'GameBooks list',
+            description: 'The available GameBooks are:',
+            fields: [],
+            timestamp: new Date()
+        }
 
-        message.channel.send(reply)
+        let i = 1
+        for (const file of gamebookFiles)
+            embed.description += `\n${i++}. \`${path.basename(file, path.extname(file))}\``
+
+        message.channel.send({ embed: embed })
     }
 }
