@@ -40,7 +40,8 @@ function makeCommandEmbed(command, prefix) {
         footer: { text: `Cooldown: ${command.cooldown || 3} second(s)`}
     }
 
-    if (command.description) embed.description = command.description
+    if (command.description)
+        embed.description = command.description
     if (command.aliases) {
         let aliases = {
             name: 'Aliases',

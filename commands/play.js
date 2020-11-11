@@ -18,14 +18,15 @@ module.exports = {
         const gamebookName = args.join(' ')
         const gamebook = GBlib.readJSON(gamebookName)
 
-        await message.channel.send(`Starting \`${gamebook.info.title}\`, good luck!`)
+        if (!gamebook) return message.reply('404: GameBook not found')
+
+        message.channel.send(`Starting \`${gamebook.info.title}\`, good luck!`)
 
         let choice = 1
-        let currChapter
         let stop = false
 
         do {
-            currChapter = GBlib.getChapter(gamebook, choice)
+            var currChapter = GBlib.getChapter(gamebook, choice)
             let reply = `Chapter no. ${currChapter.number}`
             await message.channel.send(reply)
             await utils.sendDescription(message, currChapter.description)
