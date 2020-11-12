@@ -12,17 +12,17 @@ It allows you to read and interact with some GameBooks directly in the text chan
 - Possibility of obtaining a dynamic help menu.
 
 ### Build
-Install the NodeJS dependecies \
+1. Install the NodeJS dependecies \
 `npm install`
+
+2. In the main folder add the .env file and add the following line with the appropriate TOKEN \
+`TOKEN=your-token-goes-here`
+
+3. In the main folder, create the gamebooks folder and add the GameBooks in .json format.
 
 
 ### Use
-1. In the main folder add the .env file and add the following line with the appropriate TOKEN \
-`TOKEN=your-token-goes-here`
-
-2. In the main folder, create the gamebooks folder and add the GameBooks in .json format.
-
-3. Launch the application \
+Launch the application \
 `npm run start` \
 or \
 `npm run dev` for a developer start.
