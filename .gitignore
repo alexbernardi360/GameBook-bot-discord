@@ -9,3 +9,6 @@ gamebooks/
 
 # Dev test commands
 commands/test.js
+
+# Temporary folder
+tmp/
