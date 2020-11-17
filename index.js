@@ -20,7 +20,7 @@ const TOKEN = process.env.TOKEN
 
 // On 'ready' event
 client.once('ready', () => {
-    console.info(`Logged in as ${client.user.tag}`)
+    console.info(`Logged in as:\t${client.user.tag}\n${new Date().toUTCString()}`)
 })
 
 // On 'message' event with dynamic command 
