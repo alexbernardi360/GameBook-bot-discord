@@ -21,8 +21,8 @@ module.exports = {
         message.channel.awaitMessages(filter, {max: 1, time: TIME, errors: ['time']})
         .then(async (collected) => {
             let attachments = collected.first().attachments.first()
-            if (!attachments || !attachments.attachment.endsWith('.db'))
-                return await message.reply('try sending me a file with the .db extension')
+            if (!attachments)
+                return await message.reply('try sending me a file, see you 👋')
 
             const dest = './tmp'
 
@@ -36,21 +36,20 @@ module.exports = {
             fs.writeFileSync(DBPath, buffer)
 
             const JSONPath = `${dest}/${timestamp}.json`
-            try {
-                await convert(DBPath, JSONPath)
-            } catch (error) {
-                message.reply('Error')
+            const result = await convert(DBPath, JSONPath)
+            if (result) {
+                const title = path.basename(attachments.name, path.extname(attachments.name))
+                const replyAttachment = new MessageAttachment(JSONPath, `${title}.json`)
+                await message.channel.send('this is your GameBook in JSON format!', replyAttachment)
+
+                fs.unlinkSync(JSONPath)
+            } else {
+                await message.reply('i can\'t do it, I\'m sorry ...')
             }
 
-            const title = path.basename(attachments.name, path.extname(attachments.name))
-            const replyAttachment = new MessageAttachment(JSONPath, `${title}.json`)
-            await message.channel.send('this is your GameBook in JSON format!', replyAttachment)
-
             fs.unlinkSync(DBPath)
-            fs.unlinkSync(JSONPath)
         })
         .catch((collected) => {
-            console.log(collected)
             message.reply('it\'s been too long and you haven\'t sent any files.')
         })
     }
@@ -63,7 +62,7 @@ async function convert(input_path, output_path) {
         // Exporting the object to file
         await parser.exportToFile(output_path)
     } catch (error) {
-        console.log(error.message)
-        throw 'Error'
+        return false
     }
+    return true
 }
