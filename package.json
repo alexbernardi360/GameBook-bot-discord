@@ -25,10 +25,10 @@
   },
   "homepage": "https://github.com/alexbernardi360/GameBook-bot-discord#readme",
   "dependencies": {
-    "discord.js": "^12.4.1",
+    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "download": "^8.0.0",
-    "gamebook-api": "^1.0.2"
+    "gamebook-api": "^2.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
