@@ -9,6 +9,7 @@ const TIME = 300000
 
 module.exports = {
     name: 'parse',
+    aliases: ['parser'],
     description: 'Convert a GameBook from SQLite3 to JSON conforming to the schema.',
     guildOnly: false,
     args: false,
