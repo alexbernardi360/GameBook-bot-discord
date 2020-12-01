@@ -45,7 +45,7 @@ module.exports = {
 
                 fs.unlinkSync(JSONPath)
             } else {
-                await message.reply('i can\'t do it, I\'m sorry ...')
+                await message.reply('i can\'t do it, I\'m sorry...')
             }
 
             fs.unlinkSync(DBPath)

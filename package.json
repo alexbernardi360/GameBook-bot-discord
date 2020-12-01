@@ -28,7 +28,7 @@
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "download": "^8.0.0",
-    "gamebook-api": "^2.2.0"
+    "gamebook-api": "^2.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
