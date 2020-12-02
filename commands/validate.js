@@ -1,8 +1,9 @@
 // Requires external modules
 const fs = require('fs')
 const download = require('download')
-const validate = require('gamebook-api').validate
-const readJSON = require('gamebook-api').readJSON
+
+// requires internal modules
+const validateFile = require('../lib/utils').validateFile
 
 const TIME = 300000
 
@@ -39,7 +40,7 @@ module.exports = {
             if (!result)
                 await message.reply('This is not a JSON file... 😒')
             else if (result.valid)
-                await message.reply('No error: GameBook validated!')
+                await message.reply('No error: GameBook validated! 👍')
             else
                 await message.reply(`Error: JSON not validated.\n\`${result.errors}\``)
 
@@ -47,17 +48,6 @@ module.exports = {
         })
         .catch(() => {
                 message.reply('it\'s been too long and you haven\'t sent any files.')
-            })
+        })
     }
-}
-
-function validateFile(file_path) {
-    try {
-        let instance = readJSON(file_path)
-        var result = validate(instance)
-    } catch (error) {
-        return undefined
-    }
-
-    return result
 }

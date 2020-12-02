@@ -5,6 +5,9 @@ const Parser = require('gamebook-api').Parser
 const download = require('download')
 const MessageAttachment = require('discord.js').MessageAttachment
 
+// requires internal modules
+const convert = require('../lib/utils').convert
+
 const TIME = 300000
 
 module.exports = {
@@ -54,16 +57,4 @@ module.exports = {
             message.reply('it\'s been too long and you haven\'t sent any files.')
         })
     }
-}
-
-async function convert(input_path, output_path) {
-    try {
-        // Instantiate the Parser class
-        const parser = new Parser(input_path)
-        // Exporting the object to file
-        await parser.exportToFile(output_path)
-    } catch (error) {
-        return false
-    }
-    return true
 }

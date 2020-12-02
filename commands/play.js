@@ -1,8 +1,13 @@
 // Requires external module
 const path = require('path')
-const main_path = path.dirname(require.main.filename)
-const GBlib = require(`${main_path}/lib/GBlib`)
-const utils = require(`${main_path}/lib/utils`)
+const fs = require('fs')
+const download = require('download')
+
+// requires internal modules
+const GBlib = require('../lib/GBlib')
+const utils = require('../lib/utils')
+const validateFile = require('../lib/utils').validateFile
+const convert = require('../lib/utils').convert
 
 const TIME = 600000
 
@@ -11,16 +16,69 @@ module.exports = {
     aliases: ['start'],
     description: 'Start a GameBook reading.',
     guildOnly: false,
-    args: true,
-    usage: '<GameBook name>',
     cooldown: 5,
     async execute(message, args) {
-        const gamebookName = args.join(' ')
-        const gamebook = GBlib.readJSON(gamebookName)
+        message.reply('send me a GameBook in JSON or SQLite3 format, I\'ll try to read it.')
 
-        if (!gamebook) return message.reply('404: GameBook not found')
+        let filter = (msg) => msg.author == message.author
 
-        message.channel.send(`Starting \`${gamebook.info.title}\`, good luck!`)
+        message.channel.awaitMessages(filter, {max: 1, time: TIME, errors: ['time']})
+        .then(async (collected) => {
+            let attachments = collected.first().attachments.first()
+            if (!attachments)
+                return await message.reply('try sending me a file, see you 👋')
+
+            const dest = './tmp'
+
+            if (!fs.existsSync(dest))
+                fs.mkdirSync(dest)
+
+            const buffer = await download(attachments.url)
+
+            const timestamp = new Date().getTime()
+
+            if (attachments.attachment.endsWith('.json')) {         // Validation
+                const JSONPath = `${dest}/${timestamp}.json`
+                fs.writeFileSync(JSONPath, buffer)
+
+                const result = validateFile(JSONPath)
+                if (!result)
+                    await message.reply('This is not a JSON file... 😒')
+                else if (result.valid) {
+                    const gamebook = JSON.parse(fs.readFileSync(JSONPath))
+                    startGameBook(message, gamebook)
+                } else
+                    await message.reply('Error: the file is not well written, \`!parse\` to find out more.')
+
+                fs.unlinkSync(JSONPath)
+            }
+            else if (attachments.attachment.endsWith('.db')) {      // Parsing
+                const DBPath = `${dest}/${timestamp}.db`
+                fs.writeFileSync(DBPath, buffer)
+
+                const JSONPath = `${dest}/${timestamp}.json`
+                const result = await convert(DBPath, JSONPath)
+                if (result) {
+                    const gamebook = JSON.parse(fs.readFileSync(JSONPath))
+                    startGameBook(message, gamebook)
+                    fs.unlinkSync(JSONPath)
+                } else {
+                    await message.reply('i can\'t do it, I\'m sorry...')
+                }
+
+            fs.unlinkSync(DBPath)
+            } else {                                                // File not supported
+                await message.reply('I\'m sorry but I don\'t understand this file, try a .json or .db file.')
+            }
+        })
+        .catch(() => {
+            message.reply('it\'s been too long and you haven\'t sent any files.')
+        })
+    }
+}
+
+async function startGameBook(message, gamebook) {
+    message.channel.send(`Starting ${(gamebook.info.title != '' ? ` \`${gamebook.info.title}\`` : 'the GameBook')}, good luck!`)
 
         let choice = 1
         let stop = false
@@ -63,7 +121,6 @@ module.exports = {
             await message.reply('game over!\n💀 YOU LOSE 💀')
         else
             await message.reply('bot stopped, see you 👋')
-    }
 }
 
 function nextChapterReply(reactArr) {
