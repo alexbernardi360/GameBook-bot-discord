@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon --trace-warnings index.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "download": "^8.0.0",
-    "gamebook-api": "^2.2.1"
+    "gamebook-api": "^2.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
