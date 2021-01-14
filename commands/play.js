@@ -89,7 +89,7 @@ async function startGameBook(message, gamebook) {
 
     message.channel.send(`Starting ${(gamebook.info.title !== '' ? ` \`${gamebook.info.title}\`` : 'the GameBook')}, good luck!`)
 
-    let choice = 7
+    let choice = 1
     let stop = false
     let retreat
     let lose
