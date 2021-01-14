@@ -81,7 +81,7 @@ function makeHelpEmbed(commands, prefix) {
         return {
             name: command.name,
             value: command.description,
-            inline: true
+            inline: false
         }
     }))
     embed.fields.push(blank)
