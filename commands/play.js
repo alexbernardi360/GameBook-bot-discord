@@ -162,8 +162,8 @@ async function startGameBook(message, gamebook) {
                         adversary.resistance = (adversaryResult == 'D') ? 0 : adversary.resistance - adversaryResult
                         
                         let reply = `You got ${number} on the dice roll.\n` +
-                                    `You attacks for ${playerResult} damage.\n` +
-                                    `Adversary attacks for ${adversaryResult} damage.`
+                                    `You attacks for ${adversaryResult} damage.\n` +
+                                    `Adversary attacks for ${playerResult} damage.`
                         await message.channel.send(reply)
 
                         // adversary death
